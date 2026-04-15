@@ -23,9 +23,9 @@ electricity-demand-forecast/
 │   └── evaluate.py              # metrics, plots, sanity checks
 │
 ├── notebooks/
-│   └── final_pipeline.ipynb                # exploratory analysis (optional)
+│   └── final_pipeline.ipynb               
 │
-├── outputs/                     # auto-generated on run
+├── outputs/                     
 │   ├── predictions.csv
 │   ├── predictions_vs_actual.png
 │   └── feature_importance.png
