@@ -75,3 +75,35 @@ python main.py
 - **Anomaly clipping, not deletion:** preserves the continuous hourly index required for lag features.
 - **Cyclic encoding:** hour, month, and day-of-week encoded as sin/cos pairs to prevent boundary discontinuities.
 - **Baseline check:** naive lag-1 prediction computed first — any model failing to beat it signals a pipeline bug.
+
+## Results
+
+| Model | MAPE | RMSE |
+|------|------|------|
+| Baseline (lag_1) | 6.27% | 1002 |
+| LightGBM (final) | **3.24%** | **704** |
+| XGBoost (validated) | 4.03% | 810 |
+
+LightGBM achieved the best performance, reducing error by nearly 50% compared to the baseline model.
+
+## Key Insights
+
+- Electricity demand exhibits strong **daily cyclic behavior**, captured by time-based features such as `hour` and its sinusoidal encoding.
+- **Lag features** (`lag_1`, `lag_24`) are among the most important, confirming high autocorrelation in demand.
+- Weather variables contribute meaningfully, indicating environmental influence on consumption.
+- Rolling statistics help capture short-term fluctuations and volatility.
+
+Overall, demand is best explained by a combination of:
+- temporal patterns
+- historical dependencies
+- external (weather) factors
+
+  ## Model Selection
+
+Although XGBoost initially showed better performance, this was due to overfitting.  
+After applying proper validation with early stopping, LightGBM outperformed XGBoost.
+
+LightGBM was chosen as the final model because:
+- better generalization
+- faster training
+- superior performance on tabular time-series data
